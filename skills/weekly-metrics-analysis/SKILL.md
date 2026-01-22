@@ -42,6 +42,77 @@ Generate comprehensive weekly revenue analysis across product categories with Wo
 
 Run all queries in parallel to gather data for the 8 required tables.
 
+### Step 2.5: Generate Daily Revenue Chart (REQUIRED)
+
+**After executing queries, generate a daily revenue line chart using matplotlib:**
+
+1. **Query daily revenue by product category** for the QTD period:
+
+```sql
+WITH catalyst_daily AS (
+    SELECT usage_day AS ds, 'AI/ML' AS product_category, SUM(catalyst_revenue) AS revenue
+    FROM finance.customer.catalyst_revenue_reporting
+    WHERE usage_day >= :qtd_start AND usage_day <= :current_week_end
+    GROUP BY 1
+),
+base_daily AS (
+    SELECT ds, product_category, SUM(revenue) AS revenue
+    FROM finance.customer.fy26_product_category_revenue
+    WHERE ds >= :qtd_start AND ds <= :current_week_end
+    GROUP BY 1, 2
+)
+SELECT ds, product_category, SUM(revenue) AS revenue
+FROM (SELECT * FROM base_daily UNION ALL SELECT * FROM catalyst_daily)
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+
+2. **Generate the chart using matplotlib:**
+
+```python
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Assume `df` contains the query results with columns: ds, product_category, revenue
+
+# Pivot data for plotting
+pivot_df = df.pivot(index='ds', columns='product_category', values='revenue')
+
+# Create line chart
+fig, ax = plt.subplots(figsize=(14, 7))
+
+colors = {
+    'Data Engineering': '#1f77b4',
+    'Analytics': '#ff7f0e', 
+    'Platform': '#2ca02c',
+    'Applications & Collaboration': '#d62728',
+    'AI/ML': '#9467bd'
+}
+
+for category in pivot_df.columns:
+    ax.plot(pivot_df.index, pivot_df[category] / 1e6, 
+            label=category, linewidth=2, color=colors.get(category, None))
+
+ax.set_xlabel('Date', fontsize=12)
+ax.set_ylabel('Revenue ($M)', fontsize=12)
+ax.set_title('Daily Revenue by Product Category (QTD)', fontsize=14, fontweight='bold')
+ax.legend(loc='upper left', frameon=True)
+ax.grid(True, alpha=0.3)
+ax.tick_params(axis='x', rotation=45)
+
+plt.tight_layout()
+plt.show()
+```
+
+3. **Display the chart** before presenting the tables.
+
+**Chart Requirements:**
+- X-axis: Date (daily granularity from QTD start to current week end)
+- Y-axis: Revenue in millions ($M)
+- Lines: One line per product category (5 categories)
+- Legend: Show all product categories
+- Title: "Daily Revenue by Product Category (QTD)"
+
 ### Step 3: Generate Report
 
 Compile into standard format with 8 tables, each followed by an Executive Summary.

@@ -1,0 +1,26 @@
+{
+  "name": "wf-cortex-skills",
+  "owner": {
+    "name": "Workforce Analytics Team"
+  },
+  "metadata": {
+    "description": "Weekly metrics and financial commentary skills for Snowflake Finance"
+  },
+  "plugins": [
+    {
+      "name": "weekly-metrics-analysis",
+      "source": "./skills/weekly-metrics-analysis",
+      "description": "Generate weekly product category revenue analysis with WoW change, QTD vs plan, and targets"
+    },
+    {
+      "name": "de-weekly-metrics", 
+      "source": "./skills/de-weekly-metrics",
+      "description": "Data Engineering deep dive with Dynamic Tables, Snowpark, and ingestion metrics"
+    },
+    {
+      "name": "l1-commentary",
+      "source": "./skills/l1-commentary",
+      "description": "L1 financial commentary for product categories with use case and feature analysis"
+    }
+  ]
+}

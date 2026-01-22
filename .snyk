@@ -1,0 +1,8 @@
+# Snyk (https://snyk.io) policy file
+# See http://go/snyk-license-check for more information
+# Questions? Ask in #tools-snyk
+#
+version: v1.25.0
+# Are you using a different version of Python than 3.10? Override it here for better accuracy in scan results; if not using a pipfile/etc we will default your repo to being scanned with 3.10 in mind. 
+#language-settings: 
+#  python: "3.10"

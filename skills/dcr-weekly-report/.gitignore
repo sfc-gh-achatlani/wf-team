@@ -1,0 +1,15 @@
+# Virtual environment
+.venv/
+
+# Generated output (may contain sensitive data)
+output/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# uv lock file (optional - uncomment if you want teammates to recreate)
+# uv.lock

@@ -1,0 +1,17 @@
+# Virtual environment
+.venv/
+
+# Generated output (may contain sensitive data)
+output/
+data/
+reports/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# uv lock file
+# uv.lock

@@ -1,0 +1,6 @@
+name: l1_commentary
+channels:
+  - snowflake
+dependencies:
+  - pandas
+  - altair
